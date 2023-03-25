@@ -1,5 +1,6 @@
 using System.Text;
 using API.Data;
+using API.Extensions;
 using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,29 +17,36 @@ builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
 //1.
-builder.Services.AddDbContext<DC>(opt => 
-{
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-//2.
-builder.Services.AddCors();
+// builder.Services.AddDbContext<DC>(opt => 
+// {
+//     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+// });
+// //2.
+// builder.Services.AddCors();
 
-//3.
-builder.Services.AddScoped<ITokenService, TokenService>();
+// //3.
+// builder.Services.AddScoped<ITokenService, TokenService>();
 //4. 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-  .AddJwtBearer(options => 
-  {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-      ValidateIssuerSigningKey = true,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding
-      .UTF8.GetBytes(builder.Configuration["TokenKey"])),
-      ValidateIssuer = false,
-      ValidateAudience = false
-    };
-  }
-  );
+
+builder.Services.AddApplicationService(builder.Configuration);
+
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//   .AddJwtBearer(options => 
+//   {
+//     options.TokenValidationParameters = new TokenValidationParameters
+//     {
+//       ValidateIssuerSigningKey = true,
+//       IssuerSigningKey = new SymmetricSecurityKey(Encoding
+//       .UTF8.GetBytes(builder.Configuration["TokenKey"])),
+//       ValidateIssuer = false,
+//       ValidateAudience = false
+//     };
+//   }
+//   );
+
+
+builder.Services.AddIdentityService(builder.Configuration);
+
 
 var app = builder.Build();
 
