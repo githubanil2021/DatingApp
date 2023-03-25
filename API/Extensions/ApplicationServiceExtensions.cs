@@ -11,7 +11,6 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationService(this IServiceCollection services, 
             IConfiguration config)
         {   
-
             services.AddDbContext<DC>(opt => 
             {
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
