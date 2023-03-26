@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
+//import { Observable } from 'rxjs';
+//import { of } from 'rxjs/internal/observable/of';
  
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
@@ -16,7 +19,7 @@ export class NavComponent implements OnInit {
   //loggedIn = false;
   currentUser$ : Observable<User | null> = of(null);
 
-  constructor(public accountService: AccountService) { }
+  constructor(public accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
     // this.getCurrentUser();
@@ -36,9 +39,13 @@ export class NavComponent implements OnInit {
         next: response => {
 
           console.log('success login:'+response);
+          this.router.navigateByUrl('/members');
           //this.loggedIn = true;
         },
-        error: error => console.log(error)
+        error: error => {
+          console.log(error);
+          alert(error.error);
+        }
       })
     console.log(this.model);
   }
@@ -46,5 +53,6 @@ export class NavComponent implements OnInit {
   logout(){
     //this.loggedIn = false;
     this.accountService.logout();
+    this.router.navigateByUrl('/')
   }
 }

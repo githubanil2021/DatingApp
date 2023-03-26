@@ -1,5 +1,6 @@
-.dropdown-toggle, .dropdown-item{
+.dropdown-toggle, .dropdown-item, .nav-link{
 
     text-decoration: none;
     cursor: pointer;
 }
+ 
