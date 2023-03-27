@@ -2,6 +2,7 @@ using System.Text;
 using API.Data;
 using API.Extensions;
 using API.Interfaces;
+using API.Middleware;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddScoped<ITokenService, TokenService>();
 //4. 
 
-builder.Services.AddApplicationService(builder.Configuration);
+builder.Services.AddApplicationServices(builder.Configuration);
 
 // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //   .AddJwtBearer(options => 
@@ -45,11 +46,13 @@ builder.Services.AddApplicationService(builder.Configuration);
 //   );
 
 
-builder.Services.AddIdentityService(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
 
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
